@@ -19,7 +19,7 @@ class TasksController extends Controller
 
         return view('tasks.index', [
             'tasks' => $tasks,
-            ]);
+        ]);
     }
 
     /**
@@ -33,7 +33,7 @@ class TasksController extends Controller
 
         return view('tasks.create', [
             'task' => $task,
-            ]);
+        ]);
     }
 
     /**
@@ -49,12 +49,19 @@ class TasksController extends Controller
             'content' => 'required|max:191',
         ]);
         
+        $request->user()->tasks()->create([
+            'content' => $request->content,
+            'status' => $request->status,
+        ]);
+        
+        /*
         $task = new Task;
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
+        */
 
-        return redirect('/');
+        return redirect('/tasks');
     }
 
     /**
@@ -69,7 +76,7 @@ class TasksController extends Controller
 
         return view('tasks.show', [
             'task' => $task,
-            ]);
+        ]);
     }
 
     /**
@@ -106,7 +113,7 @@ class TasksController extends Controller
         $task->content = $request->content;
         $task->save();
 
-        return redirect('/');
+        return redirect('/tasks');
     }
 
     /**
@@ -120,6 +127,6 @@ class TasksController extends Controller
         $task = Task::find($id);
         $task->delete();
 
-        return redirect('/');
+        return redirect('/tasks');
     }
 }
